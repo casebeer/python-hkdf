@@ -135,11 +135,15 @@ def tv_expand(tv_number):
 
 #### Nose test functions
 
-def tests():
+def test_functional_interface():
 	for tv in test_vectors.values():
-		yield check_tv, tv
+		yield check_fun_tv, tv
 
-def check_tv(tv):
+def test_wrapper_class():
+	for tv in test_vectors.values():
+		yield check_class_tv, tv
+
+def check_fun_tv(tv):
 	'''
 	Generate and check HKDF pseudorandom key and output key material for a specific test vector
 	
@@ -157,6 +161,22 @@ def check_tv(tv):
 	assert_equals(test_prk, tv["PRK"])
 	assert_equals(test_okm, tv["OKM"])
 
+def check_class_tv(tv):
+	'''Test HKDF output via wrapper class'''
+
+	kdf = hkdf.Hkdf(tv["salt"], tv["IKM"], tv["hash"])
+	test_okm = kdf.expand(tv["info"], tv["L"])
+
+	print "%s (via wrapper class)" % tv
+	print "PRK: %s" % ("match" if kdf._prk == tv["PRK"] else "FAIL")
+	print "OKM: %s" % ("match" if test_okm == tv["OKM"] else "FAIL")
+	print
+
+	assert_equals(kdf._prk, tv["PRK"])
+	assert_equals(test_okm, tv["OKM"])
+
 if __name__ == "__main__":
-	for f, tv in tests():
+	for f, tv in test_functional_interface():
+		f(tv)
+	for f, tv in test_wrapper_class():
 		f(tv)
