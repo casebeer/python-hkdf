@@ -24,12 +24,18 @@ except ImportError,e:
 class TestCase(UserDict.IterableUserDict):
 	'''Pretty print test cases'''
 	def __str__(self):
-		return """{name} (IKM="{ikm_start}", salt="{salt_start}")""".format(
+		if (self["salt"] == None):
+			print_salt = "None"
+		elif(len(self["salt"]) <= 4):
+			print_salt = '"' + self["salt"].encode("hex")[:8] + '"'
+		else:
+			print_salt = '"' + self["salt"].encode("hex")[:8] + '..."'
+
+		return """{name} (IKM="{ikm_start}", salt={salt_start})""".format(
 			name=self.get("name", "Unnamed test case"),
 			ikm_start=self["IKM"].encode("hex")[:8] + \
 				"..." if len(self["IKM"]) > 4 else "",
-			salt_start=self["salt"].encode("hex")[:8] + \
-				"..." if len(self["salt"]) > 4 else "",
+			salt_start=print_salt,
 			)
 	__repr__ = __str__
 
