@@ -128,6 +128,21 @@ test_vectors[6] = TestCase({
 	"OKM"   : "0ac1af7002b3d761d1e55298da9d0506b9ae52057220a306e07b6b87e8df21d0ea00033de03984d34918".decode("hex")
 })
 
+# A.7.  Test Case 7
+# Test with SHA-1, salt not provided (defaults to HashLen zero octets),
+# zero-length info
+
+test_vectors[7] = TestCase({
+	"name"  : "A.7. Test Case 7",
+	"hash"  : hashlib.sha1,
+	"IKM"   : "0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c".decode("hex"),
+	"salt"  : None,
+	"info"  : "",
+	"L"     : 42,
+	"PRK"   : "2adccada18779e7c2077ad2eb19d3f3e731385dd".decode("hex"),
+	"OKM"   : "2c91117204d745f3500d636a62f64f0ab3bae548aa53d423b0d1f27ebba6f5e5673a081d70cce7acfc48".decode("hex")
+})
+
 #### test helpers
 
 def tv_extract(tv_number):
