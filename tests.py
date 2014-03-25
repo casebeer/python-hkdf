@@ -27,7 +27,7 @@ class TestCase(UserDict.IterableUserDict):
 		if (self["salt"] == None):
 			print_salt = "None"
 		elif(len(self["salt"]) <= 4):
-			print_salt = '"' + self["salt"].encode("hex")[:8] + '"'
+			print_salt = '"' + self["salt"].encode("hex") + '"'
 		else:
 			print_salt = '"' + self["salt"].encode("hex")[:8] + '..."'
 
