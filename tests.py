@@ -31,8 +31,9 @@ class TestCase(UserDict.IterableUserDict):
 		else:
 			print_salt = '"' + self["salt"].encode("hex")[:8] + '..."'
 
-		return """{name} (IKM="{ikm_start}", salt={salt_start})""".format(
+		return """{name} ({algo}, IKM="{ikm_start}", salt={salt_start})""".format(
 			name=self.get("name", "Unnamed test case"),
+			algo=self["hash"]().name,
 			ikm_start=self["IKM"].encode("hex")[:8] + \
 				"..." if len(self["IKM"]) > 4 else "",
 			salt_start=print_salt,
