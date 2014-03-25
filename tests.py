@@ -67,7 +67,7 @@ test_vectors[2] = TestCase({
 
 
 # A.3.  Test Case 3
-# Test with SHA-256 and empty salt/info
+# Test with SHA-256 and zero-length salt/info
 
 test_vectors[3] = TestCase({
 	"name" : "A.3 Test Case 3",
@@ -109,7 +109,7 @@ test_vectors[5] = TestCase({
 })
 
 # A.6.  Test Case 6
-# Test with SHA-1 and empty salt/info
+# Test with SHA-1 and zero-length salt/info
 
 test_vectors[6] = TestCase({
 	"name"  : "A.6 Test Case 6",
