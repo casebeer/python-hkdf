@@ -47,8 +47,8 @@ test_vectors = {}
 # Basic test tv_number with SHA-256
 
 test_vectors[1] = TestCase({
-	"name": "A.1 Test Case 1",
-	"hash": hashlib.sha256,
+	"name"  : "A.1 Test Case 1",
+	"hash"  : hashlib.sha256,
 	"IKM"   : "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b".decode("hex"),
 	"salt"  : "000102030405060708090a0b0c".decode("hex"),
 	"info"  : "f0f1f2f3f4f5f6f7f8f9".decode("hex"),
@@ -76,14 +76,14 @@ test_vectors[2] = TestCase({
 # Test with SHA-256 and zero-length salt/info
 
 test_vectors[3] = TestCase({
-	"name" : "A.3 Test Case 3",
-	"hash" : hashlib.sha256,
-	"IKM"  : "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b".decode("hex"),
-	"salt" : "",
-	"info" : "",
-	"L"    : 42,
-	"PRK"  : "19ef24a32c717b167f33a91d6f648bdf96596776afdb6377ac434c1c293ccb04".decode("hex"),
-	"OKM"  : "8da4e775a563c18f715f802a063c5a31b8a11f5c5ee1879ec3454e5f3c738d2d9d201395faa4b61a96c8".decode("hex")
+	"name"  : "A.3 Test Case 3",
+	"hash"  : hashlib.sha256,
+	"IKM"   : "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b".decode("hex"),
+	"salt"  : "",
+	"info"  : "",
+	"L"     : 42,
+	"PRK"   : "19ef24a32c717b167f33a91d6f648bdf96596776afdb6377ac434c1c293ccb04".decode("hex"),
+	"OKM"   : "8da4e775a563c18f715f802a063c5a31b8a11f5c5ee1879ec3454e5f3c738d2d9d201395faa4b61a96c8".decode("hex")
 })
 
 # A.4.  Test Case 4
@@ -133,7 +133,7 @@ test_vectors[6] = TestCase({
 # zero-length info
 
 test_vectors[7] = TestCase({
-	"name"  : "A.7. Test Case 7",
+	"name"  : "A.7 Test Case 7",
 	"hash"  : hashlib.sha1,
 	"IKM"   : "0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c".decode("hex"),
 	"salt"  : None,
