@@ -1,4 +1,10 @@
-all:
+all: sdist
+
+sdist: 
+	python setup.py sdist
+
+upload: 
+	python setup.py sdist upload --sign -r https://www.python.org/pypi
 
 clean: /dev/null
 	rm -f distribute-*.tar.gz distribute-*.egg
