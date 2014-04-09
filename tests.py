@@ -1,3 +1,4 @@
+# coding=utf8
 #
 # Tests for hkdf.py. Run with Nose.
 #
@@ -5,6 +6,7 @@
 import hkdf
 import hashlib
 import UserDict
+from binascii import hexlify, unhexlify
 
 try:
 	from nose.tools import assert_equals
@@ -24,20 +26,21 @@ except ImportError,e:
 class TestCase(UserDict.IterableUserDict):
 	'''Pretty print test cases'''
 	def __str__(self):
-		if self["salt"] is None:
-			print_salt = "None"
-		else:
-			print_salt = '"{salt_start}{rest}"'.format(
-				salt_start=self["salt"][:4].encode("hex"),
-				rest="..." if len(self["salt"]) > 4 else ""
-			)
-		return """{name} ({algo}, IKM="{ikm_start}", salt={salt_start})""".format(
-			name=self.get("name", "Unnamed test case"),
+		def format_(bytes_, max_len=4):
+			'''Convert byte sequence to shortened hex unicode for printing'''
+			if bytes_ is None:
+				return u"None"
+			else:
+				return u'"{prefix}{rest}"'.format(
+					prefix=hexlify(bytes_[:max_len]),
+					rest=u"..." if len(bytes_) > max_len else u""
+				)
+		return u"""{name} ({algo}, IKM={ikm_start}, salt={salt_start})""".format(
+			name=self.get("name", u"Unnamed test case"),
 			algo=self["hash"]().name,
-			ikm_start=self["IKM"].encode("hex")[:8] + \
-				"..." if len(self["IKM"]) > 4 else "",
-			salt_start=print_salt,
-			)
+			ikm_start=format_(self["IKM"]),
+			salt_start=format_(self["salt"])
+		)
 	__repr__ = __str__
 
 #### HKDF test vectors from draft RFC
