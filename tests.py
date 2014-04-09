@@ -24,12 +24,19 @@ except ImportError,e:
 class TestCase(UserDict.IterableUserDict):
 	'''Pretty print test cases'''
 	def __str__(self):
-		return """{name} (IKM="{ikm_start}", salt="{salt_start}")""".format(
+		if (self["salt"] == None):
+			print_salt = "None"
+		elif(len(self["salt"]) <= 4):
+			print_salt = '"' + self["salt"].encode("hex") + '"'
+		else:
+			print_salt = '"' + self["salt"].encode("hex")[:8] + '..."'
+
+		return """{name} ({algo}, IKM="{ikm_start}", salt={salt_start})""".format(
 			name=self.get("name", "Unnamed test case"),
+			algo=self["hash"]().name,
 			ikm_start=self["IKM"].encode("hex")[:8] + \
 				"..." if len(self["IKM"]) > 4 else "",
-			salt_start=self["salt"].encode("hex")[:8] + \
-				"..." if len(self["salt"]) > 4 else "",
+			salt_start=print_salt,
 			)
 	__repr__ = __str__
 
@@ -41,8 +48,8 @@ test_vectors = {}
 # Basic test tv_number with SHA-256
 
 test_vectors[1] = TestCase({
-	"name": "A.1 Test Case 1",
-	"hash": hashlib.sha256,
+	"name"  : "A.1 Test Case 1",
+	"hash"  : hashlib.sha256,
 	"IKM"   : "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b".decode("hex"),
 	"salt"  : "000102030405060708090a0b0c".decode("hex"),
 	"info"  : "f0f1f2f3f4f5f6f7f8f9".decode("hex"),
@@ -67,17 +74,17 @@ test_vectors[2] = TestCase({
 
 
 # A.3.  Test Case 3
-# Test with SHA-256 and empty salt/info
+# Test with SHA-256 and zero-length salt/info
 
 test_vectors[3] = TestCase({
-	"name" : "A.3 Test Case 3",
-	"hash" : hashlib.sha256,
-	"IKM"  : "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b".decode("hex"),
-	"salt" : "",
-	"info" : "",
-	"L"    : 42,
-	"PRK"  : "19ef24a32c717b167f33a91d6f648bdf96596776afdb6377ac434c1c293ccb04".decode("hex"),
-	"OKM"  : "8da4e775a563c18f715f802a063c5a31b8a11f5c5ee1879ec3454e5f3c738d2d9d201395faa4b61a96c8".decode("hex")
+	"name"  : "A.3 Test Case 3",
+	"hash"  : hashlib.sha256,
+	"IKM"   : "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b".decode("hex"),
+	"salt"  : "",
+	"info"  : "",
+	"L"     : 42,
+	"PRK"   : "19ef24a32c717b167f33a91d6f648bdf96596776afdb6377ac434c1c293ccb04".decode("hex"),
+	"OKM"   : "8da4e775a563c18f715f802a063c5a31b8a11f5c5ee1879ec3454e5f3c738d2d9d201395faa4b61a96c8".decode("hex")
 })
 
 # A.4.  Test Case 4
@@ -109,7 +116,7 @@ test_vectors[5] = TestCase({
 })
 
 # A.6.  Test Case 6
-# Test with SHA-1 and empty salt/info
+# Test with SHA-1 and zero-length salt/info
 
 test_vectors[6] = TestCase({
 	"name"  : "A.6 Test Case 6",
@@ -120,6 +127,21 @@ test_vectors[6] = TestCase({
 	"L"     : 42,
 	"PRK"   : "da8c8a73c7fa77288ec6f5e7c297786aa0d32d01".decode("hex"),
 	"OKM"   : "0ac1af7002b3d761d1e55298da9d0506b9ae52057220a306e07b6b87e8df21d0ea00033de03984d34918".decode("hex")
+})
+
+# A.7.  Test Case 7
+# Test with SHA-1, salt not provided (defaults to HashLen zero octets),
+# zero-length info
+
+test_vectors[7] = TestCase({
+	"name"  : "A.7 Test Case 7",
+	"hash"  : hashlib.sha1,
+	"IKM"   : "0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c".decode("hex"),
+	"salt"  : None,
+	"info"  : "",
+	"L"     : 42,
+	"PRK"   : "2adccada18779e7c2077ad2eb19d3f3e731385dd".decode("hex"),
+	"OKM"   : "2c91117204d745f3500d636a62f64f0ab3bae548aa53d423b0d1f27ebba6f5e5673a081d70cce7acfc48".decode("hex")
 })
 
 #### test helpers
