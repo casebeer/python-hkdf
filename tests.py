@@ -24,13 +24,13 @@ except ImportError,e:
 class TestCase(UserDict.IterableUserDict):
 	'''Pretty print test cases'''
 	def __str__(self):
-		if (self["salt"] == None):
+		if self["salt"] is None:
 			print_salt = "None"
-		elif(len(self["salt"]) <= 4):
-			print_salt = '"' + self["salt"].encode("hex") + '"'
 		else:
-			print_salt = '"' + self["salt"].encode("hex")[:8] + '..."'
-
+			print_salt = '"{salt_start}{rest}"'.format(
+				salt_start=self["salt"][:4].encode("hex"),
+				rest="..." if len(self["salt"]) > 4 else ""
+			)
 		return """{name} ({algo}, IKM="{ikm_start}", salt={salt_start})""".format(
 			name=self.get("name", "Unnamed test case"),
 			algo=self["hash"]().name,
