@@ -121,7 +121,7 @@ def hkdf_extract(salt, input_key_material, hash=hashlib.sha512):
 	hash_len = hash().digest_size
 	if salt == None or len(salt) == 0:
 		salt = bytearray((0,) * hash_len)
-	return hmac.new(buffer(salt), buffer(input_key_material), hash).digest()
+	return hmac.new(bytes(salt), buffer(input_key_material), hash).digest()
 
 def hkdf_expand(pseudo_random_key, info=b"", length=32, hash=hashlib.sha512):
 	'''
