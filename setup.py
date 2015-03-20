@@ -5,6 +5,12 @@ from __future__ import print_function
 from setuptools import setup
 import sys
 
+import os
+# Don't use hardlinks while testing from vagrant guest fs
+# http://stackoverflow.com/questions/7719380/python-setup-py-sdist-error-operation-not-permitted
+if os.environ.get('USER','') == 'vagrant':
+    del os.link
+
 try:
 	with open("README.rst", "rb") as f:
 		readme = f.read().decode("utf-8")
