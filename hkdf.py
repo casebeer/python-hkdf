@@ -97,9 +97,14 @@ material:
 > single octet.)
 
 '''
+from __future__ import division
 
 import hmac
 import hashlib
+import sys
+
+if sys.version_info[0] == 3:
+	buffer = lambda x: x
 
 def hkdf_extract(salt, input_key_material, hash=hashlib.sha512):
 	'''
@@ -115,10 +120,10 @@ def hkdf_extract(salt, input_key_material, hash=hashlib.sha512):
 	'''
 	hash_len = hash().digest_size
 	if salt == None or len(salt) == 0:
-		salt = chr(0) * hash_len
-	return hmac.new(salt, input_key_material, hash).digest()
+		salt = bytearray((0,) * hash_len)
+	return hmac.new(buffer(salt), buffer(input_key_material), hash).digest()
 
-def hkdf_expand(pseudo_random_key, info="", length=32, hash=hashlib.sha512):
+def hkdf_expand(pseudo_random_key, info=b"", length=32, hash=hashlib.sha512):
 	'''
 	Expand `pseudo_random_key` and `info` into a key of length `bytes` using 
 	HKDF's expand function based on HMAC with the provided hash (default 
@@ -129,11 +134,12 @@ def hkdf_expand(pseudo_random_key, info="", length=32, hash=hashlib.sha512):
 	if length > 255 * hash_len:
 		raise Exception("Cannot expand to more than 255 * %d = %d bytes using the specified hash function" %\
 			(hash_len, 255 * hash_len))
-	blocks_needed = length / hash_len + (0 if length % hash_len == 0 else 1) # ceil
-	okm = ""
-	output_block = ""
+	blocks_needed = length // hash_len + (0 if length % hash_len == 0 else 1) # ceil
+	okm = b""
+	output_block = b""
 	for counter in range(blocks_needed):
-		output_block = hmac.new(pseudo_random_key, output_block + info + chr(counter + 1), hash).digest()
+		output_block = hmac.new(pseudo_random_key, buffer(output_block + info + bytearray((counter + 1,))),\
+			hash).digest()
 		okm += output_block
 	return okm[:length]
 
@@ -151,7 +157,7 @@ class Hkdf(object):
 		'''
 		self._hash = hash
 		self._prk = hkdf_extract(salt, input_key_material, self._hash)
-	def expand(self, info="", length=32):
+	def expand(self, info=b"", length=32):
 		'''
 		Generate output key material based on an `info` value
 

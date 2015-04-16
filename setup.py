@@ -1,14 +1,16 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
+
 from setuptools import setup
 import sys
 
 try:
 	with open("README.rst", "rb") as f:
-		readme = f.read()
+		readme = f.read().decode("utf-8")
 except:
 	readme = ""
-	print "Warning, unable to load README.rst into long_description."
+	print("Warning, unable to load README.rst into long_description.")
 
 setup(
 	name="hkdf",
