@@ -20,7 +20,7 @@ except:
 
 setup(
 	name="hkdf",
-	version="0.0.1",
+	version="0.0.2",
 	description="HMAC-based Extract-and-Expand Key Derivation Function (HKDF)",
 	author="Christopher H. Casebeer",
 	author_email="",
@@ -35,6 +35,10 @@ setup(
 	classifiers=[
 		"License :: OSI Approved :: BSD License",
 		"Intended Audience :: Developers",
+		"Programming Language :: Python :: 2.6",
+		"Programming Language :: Python :: 2.7",
+		"Programming Language :: Python :: 3.3",
+		"Programming Language :: Python :: 3.4",
 	]
 )
 
