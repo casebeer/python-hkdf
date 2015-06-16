@@ -4,3 +4,4 @@
 dist/
 build/
 hkdf.egg-info/
+.tox/
