@@ -20,7 +20,7 @@ except:
 
 setup(
 	name="hkdf",
-	version="0.0.2",
+	version="0.0.3",
 	description="HMAC-based Extract-and-Expand Key Derivation Function (HKDF)",
 	author="Christopher H. Casebeer",
 	author_email="",
