@@ -26,24 +26,26 @@ See section 3.2 of the HKDF draft for more information on using the ``info``
 argument.
 
 The hash function to use can be specified for both ``hmac_extract()`` and
-``hmac_expand()`` as the ``hash`` kw argument, and defaults to SHA-256 as implemented
+``hmac_expand()`` as the ``hash`` kw argument, and **defaults to SHA-512** as implemented
 by the hashlib module. It must be the same for both extracting and expanding.
 
 Example::
 
-    prk = hkdf_extract("8e94ef805b93e683ff18".decode("hex"), "asecretpassword")
-    key = hkdf_expand(prk, "context1", 16)
+    from binascii import unhexlify
+    prk = hkdf_extract(unhexlify(b"8e94ef805b93e683ff18"), b"asecretpassword")
+    key = hkdf_expand(prk, b"context1", 16)
 
 ``Hkdf`` wrapper class
 ----------------------
 
 To use the wrapper class, instantiate the ``Hkdf()`` class with a salt, input
-key material, and optionally, a hash function. You may then call
-``expand([info], [length])`` on the Hkdf instance to generate output key
-material::
+key material, and optionally, a hash function. Note that **the default hash function
+for the wrapper class is SHA-256**, which differs from the default for the functional
+interface. You may then call ``expand([info], [length])`` on the Hkdf instance to 
+generate output key material::
 
-    kdf = Hkdf("8e94ef805b93e683ff18".decode("hex"), "asecretpassword")
-    key = kdf.expand("context1", 16)
+    kdf = Hkdf(unhexlify(b"8e94ef805b93e683ff18"), b"asecretpassword", hash=hashlib.sha512)
+    key = kdf.expand(b"context1", 16)
 
 Changelog
 ---------
