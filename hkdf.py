@@ -3,7 +3,7 @@ from __future__ import division
 import hmac
 import hashlib
 import sys
-from struct import pack, error as struct_error
+from struct import Struct, pack, error as struct_error
 from itertools import count, islice
 
 if sys.version_info[0] == 3:
@@ -11,22 +11,10 @@ if sys.version_info[0] == 3:
 
 
 MAX_INT64 = 0xffffffffffffffffffffffffffffffff
-
-
-def COUNTER8(x):
-	return pack('>B', x)
-
-
-def COUNTER16(x):
-	return pack('>H', x)
-
-
-def COUNTER32(x):
-	return pack('>I', x)
-
-
-def COUNTER64(x):
-	return pack('>Q', x)
+COUNTER8 = Struct('>B').pack
+COUNTER16 = Struct('>H').pack
+COUNTER32 = Struct('>I').pack
+COUNTER64 = Struct('>Q').pack
 
 
 def COUNTER128(x):
