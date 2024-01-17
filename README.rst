@@ -6,7 +6,7 @@ This module implements the HMAC Key Derivation function as specified in RFC 5869
     https://www.rfc-editor.org/rfc/rfc5869
 
 There are two interfaces: a functional interface, with separate extract
-and expand functions as defined in the draft RFC, and a wrapper class for
+and expand functions as defined in the RFC, and a wrapper class for
 these functions.
 
 Functional interface
@@ -15,14 +15,14 @@ Functional interface
 To use the functional interface, pass the pseudorandom key generated
 by ``hmac_extract([salt], [input key material])`` to ``hmac_expand(...)``.
 ``salt`` should be a random, non-secret, site-specific string, but may be
-set to None. See section 3.1 of the HKDF draft for more details.
+set to None. See section 3.1 of the HKDF RFC for more details.
 
 In addition to the PRK output by ``hmac_extract()``, ``hmac_expand()`` takes an
 ``info`` argument, which permits generating multiple keys based on the
 same PRK, and a ``length`` argument, which defines the number of bytes
 of output key material to generate. ``length`` must be less than or equal
 to 255 time the block size, in bytes, of the hash function being used.
-See section 3.2 of the HKDF draft for more information on using the ``info``
+See section 3.2 of the HKDF RFC for more information on using the ``info``
 argument.
 
 The hash function to use can be specified for both ``hmac_extract()`` and
