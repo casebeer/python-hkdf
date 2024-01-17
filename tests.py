@@ -20,8 +20,8 @@ try:
 except ImportError as e:
 	def assert_equals(a, b):
 		'''
-		Assert a and b are equal. 
-		
+		Assert a and b are equal.
+
 		Assume a and b are raw binary data and escape before printing.
 		'''
 		try:
@@ -53,7 +53,7 @@ class TestCase(UserDict):
 def decode_hex(s):
 	return codecs.decode(s, "hex_codec")
 
-#### HKDF test vectors from draft RFC
+#### HKDF test vectors from RFC
 
 test_vectors = {}
 
@@ -181,7 +181,7 @@ def test_wrapper_class():
 def check_fun_tv(tv):
 	'''
 	Generate and check HKDF pseudorandom key and output key material for a specific test vector
-	
+
 	PRK = HKDF-Extract([test vector values])
 	OKM = HKDF-Expand(PRK, [test vector values])
 	'''
