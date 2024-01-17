@@ -1,9 +1,9 @@
 HKDF - HMAC Key Derivation Function
 ===================================
 
-This module implements the HMAC Key Derivation function, defined at
+This module implements the HMAC Key Derivation function as specified in RFC 5869:
 
-    http://tools.ietf.org/html/draft-krawczyk-hkdf-01
+    https://www.rfc-editor.org/rfc/rfc5869
 
 There are two interfaces: a functional interface, with separate extract
 and expand functions as defined in the draft RFC, and a wrapper class for
@@ -41,7 +41,7 @@ Example::
 To use the wrapper class, instantiate the ``Hkdf()`` class with a salt, input
 key material, and optionally, a hash function. Note that **the default hash function
 for the wrapper class is SHA-256**, which differs from the default for the functional
-interface. You may then call ``expand([info], [length])`` on the Hkdf instance to 
+interface. You may then call ``expand([info], [length])`` on the Hkdf instance to
 generate output key material::
 
     kdf = Hkdf(unhexlify(b"8e94ef805b93e683ff18"), b"asecretpassword", hash=hashlib.sha512)
@@ -57,5 +57,3 @@ Changelog
 Please report any bugs at
 
     https://www.github.com/casebeer/python-hkdf
-
-
