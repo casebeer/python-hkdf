@@ -16,8 +16,8 @@ def hkdf_extract(salt, input_key_material, hash=hashlib.sha512):
 	salt should be a random, application-specific byte string. If
 	salt is None or the empty string, an all-zeros string of the same
 	length as the hash's block size will be used instead per the RFC.
-	
-	See the HKDF draft RFC and paper for usage notes.
+
+	See the HKDF RFC and paper for usage notes.
 	'''
 	hash_len = hash().digest_size
 	if salt == None or len(salt) == 0:
@@ -28,7 +28,7 @@ def hkdf_expand(pseudo_random_key, info=b"", length=32, hash=hashlib.sha512):
 	'''
 	Expand `pseudo_random_key` and `info` into a key of length `bytes` using
 	HKDF's expand function based on HMAC with the provided hash (default
-	SHA-512). See the HKDF draft RFC and paper for usage notes.
+	SHA-512). See the HKDF RFC and paper for usage notes.
 	'''
 	hash_len = hash().digest_size
 	length = int(length)
@@ -51,8 +51,8 @@ class Hkdf(object):
 	def __init__(self, salt, input_key_material, hash=hashlib.sha256):
 		'''
 		Extract a pseudorandom key from `salt` and `input_key_material` arguments.
-		
-		See the HKDF draft RFC for guidance on setting these values. The constructor
+
+		See the HKDF RFC for guidance on setting these values. The constructor
 		optionally takes a `hash` arugment defining the hash function use,
 		defaulting to hashlib.sha256.
 		'''
@@ -66,7 +66,6 @@ class Hkdf(object):
 		- info - context to generate the OKM
 		- length - length in bytes of the key to generate
 
-		See the HKDF draft RFC for guidance.
+		See the HKDF RFC for guidance.
 		'''
 		return hkdf_expand(self._prk, info, length, self._hash)
-
